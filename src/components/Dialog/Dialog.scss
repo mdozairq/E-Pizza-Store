@@ -1,0 +1,61 @@
+.outer {
+    display: block;
+    padding: 1.5rem;
+    border-bottom: 0.1rem solid rgb(232, 232, 232);
+    background: rgb(255, 255, 255);
+    
+
+    .itemDiv {
+        margin-bottom: 1rem;
+        display: flex;
+        -webkit-box-flex: 0;
+        flex-grow: 0;
+        flex-shrink: 0;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        width: 100%;
+
+        .Itype {
+            // margin-top: 0.5rem;
+            flex-shrink: 0;
+            -webkit-box-flex: 0;
+            flex-grow: 0;
+            margin-right: 0.65rem;
+            background-color: rgb(255, 255, 255);
+            border-radius: 0.4rem;
+
+            img {
+                width: 25px;
+                height: 25px;
+            }
+        }
+
+        .rightSec {
+            background-color: rgb(255, 255, 255);
+            border-radius: 0.4rem;
+
+            .first {
+                display: flex;
+                // -webkit-box-flex: 0;
+                // flex-grow: 0;
+                // flex-shrink: 0;
+                // -webkit-box-pack: justify;
+                justify-content:space-between;
+                width: 480px;
+                // margin-bottom: 0.5rem;
+
+                .div1{
+                    padding-right: 0.5rem;
+                    display: block;
+                    // margin-right: 50px;
+                }
+
+                .div2{
+                    padding-right: 0.5rem;
+                    display: block;
+                    justify-content: flex-end;
+                }
+            }
+        }
+    }
+}

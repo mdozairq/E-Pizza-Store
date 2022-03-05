@@ -1,0 +1,55 @@
+.appbar {
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+  
+    padding: 1rem 0rem 1rem 0rem;
+    background: #ebc68a;
+    box-shadow: 0 8px 32px 0 rgba(47, 48, 49, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    justify-content: space-between;
+    // position: fixed;
+}
+.appbar-logo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 2rem;
+  
+    img {
+      width: 30px;
+      height: 30px;
+    
+      @media screen and (min-width: 2000px) {
+        width: 180px;
+        height: 40px;
+      }
+    }
+  
+    a {
+      // color: var(--gray-color);
+      font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: large;
+      text-decoration: none;
+      flex-direction: column;
+      font-weight: 800;
+      font-stretch: expanded;
+  
+      // text-transform: uppercase;
+      // font-weight: 500;
+  
+      transition: all 0.3s ease-in-out;
+  
+      &:hover {
+        color: #000;
+      }
+      
+    }
+  }
+
+.cart{
+    margin-right: 2rem;
+}
