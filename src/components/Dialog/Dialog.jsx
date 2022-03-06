@@ -64,6 +64,16 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
   const subTotal = cartItem.map(item => item.amount).reduce((prev, curr) => prev + curr, 0);
 
   console.log(cartItem);
+  // first, we use reduce to generate a map with values and the amount of times they appear
+  const map = cartItem.reduce((map, key) => map.set(key, (map.get(key) || 0) + 1), new Map())
+
+  // next, we spread this map into an array
+  const table = [...map];
+
+  // finally, we use Object.fromEntries to generate an object based on this entry table
+  const result = Object.fromEntries(table);
+  console.log("result: ", result);
+
   const handleClickOpen = () => {
     setopenCart(true);
   };
@@ -80,7 +90,6 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
       isVeg: pizza.isVeg,
       amount: pizza.amount,
     }
-    // setCounter(counter - 1)
     PizzaStoreContextDispatch({
       type: "setNoOfItem",
       payload: noOfItem - 1,
@@ -92,10 +101,11 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
     });
   }
 
-  const emptyCart = () =>{
+  const emptyCart = () => {
     PizzaStoreContextDispatch({
       type: "setEmptyCart",
     });
+    setopenCart(false);
   }
 
   return (
@@ -110,7 +120,7 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
           <h3 style={{ lineHeight: "1rem" }}>Checkout</h3>
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          {subTotal === 0 ? <div style={{ width: "400px" }}>Please Select Pizza in the Cart</div>
+          {subTotal === 0 ? <div style={{ width: "400px" }}>Please Select Pizza to Add in the Cart</div>
             : cartItem.map((item, index) =>
               <div className='outer' key={index}>
                 <div className='itemDiv'>
@@ -145,8 +155,10 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
             style={{ border: "none", backgroundColor: "white", width: "100%" }}
           >
             <GooglePayButton
-              // onClick={emptyCart}
               environment="TEST"
+              buttonSizeMode='static'
+              buttonType='order'
+              // onClick={emptyCart}
               paymentRequest={{
                 apiVersion: 2,
                 apiVersionMinor: 0,
@@ -168,12 +180,12 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
                 ],
                 merchantInfo: {
                   merchantId: "12345678901234567890",
-                  merchantName: "Demo Merchant Shubham",
+                  merchantName: "Demo Merchant Ozair",
                 },
                 transactionInfo: {
                   totalPriceStatus: "FINAL",
                   totalPriceLabel: "Total",
-                  totalPrice: subTotal,
+                  totalPrice: subTotal.toString(),
                   currencyCode: "INR",
                   countryCode: "IN",
                 },
@@ -192,9 +204,6 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
                 return {};
               }}
               existingPaymentMethodRequired="false"
-              buttonColor="black"
-              buttonType="Buy"
-              fullWidth
             />
           </button>
         </DialogActions>

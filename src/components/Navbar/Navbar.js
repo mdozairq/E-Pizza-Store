@@ -32,8 +32,6 @@ const Navbar = () => {
 					/>
 				}
 				<IconButton
-					// component={}
-					// to="/cart"
 					onClick={()=>setopenCart(true)}
 					aria-label="show cart"
 					color="inherit"
