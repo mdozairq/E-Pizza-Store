@@ -15,6 +15,7 @@ import veg from '../../assets/veg.png'
 // import GroupButton from '../GroupButton/GroupButton';
 import GooglePayButton from "@google-pay/button-react";
 import './Dialog.scss'
+import Gbutton from './Gbutton';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -58,49 +59,17 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
 
 
   const {
-    state: { cartItem, noOfItem },
+    state: { cartItem},
     PizzaStoreContextDispatch,
   } = React.useContext(PizzaStoreContext);
-  const subTotal = cartItem.map(item => item.amount).reduce((prev, curr) => prev + curr, 0);
+  const subTotal = cartItem.map(item => item.finalAmount).reduce((prev, curr) => prev + curr, 0);
 
-  console.log(cartItem);
-  // first, we use reduce to generate a map with values and the amount of times they appear
-  const map = cartItem.reduce((map, key) => map.set(key, (map.get(key) || 0) + 1), new Map())
-
-  // next, we spread this map into an array
-  const table = [...map];
-
-  // finally, we use Object.fromEntries to generate an object based on this entry table
-  const result = Object.fromEntries(table);
-  console.log("result: ", result);
-
-  const handleClickOpen = () => {
-    setopenCart(true);
-  };
-
+  
   const handleClose = () => {
     setopenCart(false);
-    // setOpenCart(false);
   };
 
-  const removeItem = (pizza) => {
-    const Item = {
-      id: pizza.id,
-      name: pizza.name,
-      isVeg: pizza.isVeg,
-      amount: pizza.amount,
-    }
-    PizzaStoreContextDispatch({
-      type: "setNoOfItem",
-      payload: noOfItem - 1,
-    });
-
-    PizzaStoreContextDispatch({
-      type: "deleteCartItem",
-      payload: Item,
-    });
-  }
-
+  
   const emptyCart = () => {
     PizzaStoreContextDispatch({
       type: "setEmptyCart",
@@ -131,13 +100,12 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
                     <div className='first'>
                       <div className='div1'>
                         <h3>{item.name}</h3>
-                        <h5>₹{item.amount}</h5>
+                        <h5>{item.quantity} X ₹{item.amount}  :  ₹{item.finalAmount}</h5>
                         <p>Size: {item.size.size}</p>
                         <p>Toppings: {item.toppings.name} </p>
                       </div>
                       <div className='div2'>
-                        {/* <Button variant="primary" style={{ width: "80%", background: "red", color: "#fff", margin: "10px" }} onClick={removeItem(item)}>Remove</Button> */}
-                        {/* <GroupButton pizza={item} /> */}
+                        <Gbutton pizza={item} />
                       </div>
                     </div>
                   </div>
@@ -150,15 +118,17 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
         <DialogActions style={{ flexDirection: "column", textAlign: "left", justifyContent: "left", alignItems: "left" }}>
           <Typography variant='h6'>SubTotal: ₹{subTotal}</Typography>
           {/* <Button variant="primary" fullWidth style={{ width: "100%", background: "#ff9e00", color: "#fff", margin: "10px" }}>Pay - ${subTotal}</Button> */}
-          <button
+          <Button
             onClick={emptyCart}
-            style={{ border: "none", backgroundColor: "white", width: "100%" }}
+            variant="primary"
+            style={{ border: "none", backgroundColor: "black", width: "100%" }}
+            fullWidth
+            disabled={subTotal === 0 ? true : false}
           >
             <GooglePayButton
               environment="TEST"
               buttonSizeMode='static'
               buttonType='order'
-              // onClick={emptyCart}
               paymentRequest={{
                 apiVersion: 2,
                 apiVersionMinor: 0,
@@ -205,7 +175,7 @@ export default function CustomizedDialogs({ openCart, setopenCart }) {
               }}
               existingPaymentMethodRequired="false"
             />
-          </button>
+          </Button>
         </DialogActions>
       </BootstrapDialog>
     </div>

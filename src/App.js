@@ -17,7 +17,7 @@ function App() {
   const [type, settype] = useState("all");
 
   
-  // function to fetch products from commercejs
+//   function to fetch products from commercejs
   const fetchPizzaDetails = async () => {
     // fetch products and destucture it on app load, it returns promise
     const response = await axios.get("https://run.mocky.io/v3/ec196a02-aaf4-4c91-8f54-21e72f241b68");
@@ -29,7 +29,6 @@ function App() {
 
   useEffect(() => {
     fetchPizzaDetails();
-    // fetchCart();
   }, []);
 
   useEffect(() => {

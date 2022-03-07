@@ -8,27 +8,61 @@ export const pizzaStoreReducer = (state = initialState, action) => {
 
     switch (type) {
         case "setCartItem":
-            console.log("i am reducer set ,", payload);
-            return {
-                ...state,
-                cartItem: [...state.cartItem, payload],
-            };
+            if (state.cartItem.find((item) => item.id === payload.id && item.amount === payload.amount && item.size.size === payload.size.size)) {
+                const newItem = state.cartItem.map((varietal) => {
+                    if (varietal.id === payload.id && varietal.amount === payload.amount && varietal.size.size === payload.size.size) {
+                        return { ...varietal, finalAmount: varietal.amount * (varietal.quantity + 1), quantity: varietal.quantity + 1 };
+                    }
+                    return varietal;
+                });
+                return {
+                    ...state,
+                    cartItem: newItem,
+                };
+            }
+            else
+                return {
+                    ...state,
+                    cartItem: [...state.cartItem, { ...payload, finalAmount: payload.amount, quantity: 1 }],
+                };
         case "deleteCartItem":
-            console.log("i am reducer del ,", payload);
-            return {
-                ...state,
-                cartItem: state.cartItem.filter((item) => item.id  !== payload.id && item.amount !== payload.amount && item.name !== payload.name),
-            };
+            if (state.cartItem.find((item) => item.id === payload.id && item.amount === payload.amount && item.size.size === payload.size.size && item.quantity > 1)) {
+                console.log("I entered");
+                const newItem = state.cartItem.map((varietal) => {
+                    if (varietal.id === payload.id && varietal.amount === payload.amount && varietal.size.size === payload.size.size) {
+                        return { ...varietal, finalAmount: varietal.finalAmount - varietal.amount, quantity: varietal.quantity - 1 };
+                    }
+                    return varietal;
+                });
+                return {
+                    ...state,
+                    cartItem: newItem,
+                };
+            }
+            else {
+                const newItem = state.cartItem.filter((varietal, index) => {
+                    if (varietal.id === payload.id && varietal.amount === payload.amount && varietal.size.size === payload.size.size) {
+                        return false;
+                    }
+                    return varietal;
+                });
+                console.log("After Del: ", newItem);
+                return {
+                    ...state,
+                    cartItem: newItem,
+                };
+
+            }
         case "setNoOfItem":
             return {
                 ...state,
                 noOfItem: payload,
             }
         case "setEmptyCart":
-            return{
+            return {
                 ...state,
-                cartItem:[],
-                noOfItem:0,
+                cartItem: [],
+                noOfItem: 0,
             }
         default:
             return state;

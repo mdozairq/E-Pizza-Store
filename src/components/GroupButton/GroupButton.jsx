@@ -26,7 +26,7 @@ const GroupButton = ({ pizza }) => {
     const [size, setSize] = useState(0);
     const [toppings, setToppings] = useState(0)
     const [amount, setamount] = useState(pizza.price)
-
+    
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -36,6 +36,23 @@ const GroupButton = ({ pizza }) => {
         if (noOfItem === 0)
             setCounter(0)
     }, [noOfItem])
+
+    // const addCart = (varietalCount) => {
+    //     if (cartItem.find((item) => item.id === varietalCount.id)) {
+    //       const newVarietal = cartItem.map((varietal) => {
+    //         if (varietal.id === varietalCount.id) {
+    //           return { ...varietal, count: varietalCount.count + varietal.count };
+    //         }
+    //         return varietal;
+    //       });
+    //       cartItem(newVarietal);
+    //     } else {
+    //       setCartItem((state) => {
+    //         return [...state, varietalCount];
+    //       });
+    //     }
+    //   };
+    //   console.log("list", list);
 
     useEffect(() => {
         let price1, price2;
@@ -60,6 +77,7 @@ const GroupButton = ({ pizza }) => {
     }
 
     const decrement = () => {
+        setCounter(counter - 1)
         const Item = {
             id: pizza.id,
             name: pizza.name,
@@ -68,7 +86,6 @@ const GroupButton = ({ pizza }) => {
             toppings: pizza.toppings[0].isRadio ? pizza.toppings[0].items[toppings] : "-",
             amount: amount,
         }
-        setCounter(counter - 1)
         PizzaStoreContextDispatch({
             type: "setNoOfItem",
             payload: noOfItem - 1,
@@ -81,12 +98,14 @@ const GroupButton = ({ pizza }) => {
     }
 
     const addToCart = () => {
+        setCounter(counter + 1)
         const Item = {
             id: pizza.id,
             name: pizza.name,
             isVeg: pizza.isVeg,
             size: pizza.size[0].isRadio ? pizza.size[0].items[size] : "-",
             toppings: pizza.toppings[0].isRadio ? pizza.toppings[0].items[toppings] : "-",
+            // quantity: counter, 
             amount: amount,
         }
 
@@ -94,7 +113,6 @@ const GroupButton = ({ pizza }) => {
             type: "setCartItem",
             payload: Item,
         });
-        setCounter(counter + 1)
         PizzaStoreContextDispatch({
             type: "setNoOfItem",
             payload: noOfItem + 1,
@@ -157,12 +175,13 @@ const GroupButton = ({ pizza }) => {
                     >Add to Cart - ₹{amount}</Button>
                 </DialogActions>
             </Dialog>
-            <ButtonGroup size="small" aria-label="small outlined button group">
+            <Button onClick={increment} style={{ color: "#fff", border: "none" }} fullWidth>Add</Button>
+            {/* <ButtonGroup size="small" aria-label="small outlined button group">
                 {<Button disabled={counter <= 0} onClick={decrement} style={{ color: "#fff", fontSize: "1.2rem", border: "none" }}>-</Button>}
                 {<Button disabled style={{ color: "#fff", fontSize: "1.2rem", border: "none" }}>{counter}</Button>}
                 <Button
                     onClick={increment} style={{ color: "#fff", fontSize: "1.2rem", border: "none" }}>+</Button>
-            </ButtonGroup>
+            </ButtonGroup> */}
         </>
     )
 }
