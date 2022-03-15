@@ -1,3 +1,17 @@
+<h1>E-Pizza Store </h1>
+
+<h3> First view </h3>
+
+<img src="p1.png" />
+
+<h3> Before Adding pizza into cart </h3>
+
+<img src="p2.png" />
+
+<h3> E-Pizza Store Cart</h3>
+<img src="p3.png" />
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
